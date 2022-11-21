@@ -27,11 +27,16 @@ import {
 } from '../../../helpers/Utils';
 import axios from 'axios';
 import { KEY, URL } from '../../../constants/defaultValues';
+import CommonPage from '../../../components/CommonPage';
+import { useTranslation } from 'react-i18next';
 
 const IdeasPageNew = () => {
+    const { t } = useTranslation();
     const { challengeQuestions } = useSelector(
         (state) => state?.studentRegistration
     );
+    const [showPage, setshowPage] = useState(false);
+    console.log(setshowPage);
     const [answerResponses, setAnswerResponses] = useState([]);
     const submittedResponse = useSelector(
         (state) =>
@@ -62,13 +67,19 @@ const IdeasPageNew = () => {
             answerResponses.filter(
                 (item) => item.challenge_question_id == questionId
             );
-        return data && data.length>0 && data[0].selected_option ? data[0].selected_option : "" ;
+        return data && data.length > 0 && data[0].selected_option
+            ? data[0].selected_option
+            : '';
     };
     useEffect(() => {
         dispatch(getStudentChallengeQuestions(language));
     }, [language, dispatch]);
     useEffect(() => {
-        setAnswerResponses(prePopulatingData(submittedResponse) ? prePopulatingData(submittedResponse):[]);
+        setAnswerResponses(
+            prePopulatingData(submittedResponse)
+                ? prePopulatingData(submittedResponse)
+                : []
+        );
     }, []);
 
     useEffect(() => {
@@ -158,122 +169,81 @@ const IdeasPageNew = () => {
                 return err.response;
             });
     };
+    const comingSoonText = t('dummytext.student_idea_sub');
+
     return (
         <Layout>
-            <Container className="presuervey mb-50 mt-5 ">
-                <Col>
-                    <Row className=" justify-content-center">
-                        <Card className="aside  mb-5 p-4">
-                            <CardBody>
-                                {challengeQuestions.length > 0 && (
-                                    <Form
-                                        className="form-row row mb-5 mt-3 py-5"
-                                        onSubmit={handleSubmit}
-                                        isSubmitting
-                                    >
-                                        {challengeQuestions.map(
-                                            (eachQuestion, i) => (
-                                                <>
-                                                    <Row key={i}>
-                                                        <div className="question quiz mb-0">
-                                                            <b
-                                                                style={{
-                                                                    fontSize:
-                                                                        '1.6rem'
-                                                                }}
-                                                            >
-                                                                {i + 1}.{' '}
-                                                                {
-                                                                    eachQuestion.question
-                                                                }
-                                                            </b>
-                                                        </div>
-                                                        <div>
-                                                            {eachQuestion?.description && (
-                                                                <p
-                                                                    className="text-muted ms-5"
+            {showPage ? (
+                <CommonPage text={comingSoonText} />
+            ) : (
+                <Container className="presuervey mb-50 mt-5 ">
+                    <Col>
+                        <Row className=" justify-content-center">
+                            <Card className="aside  mb-5 p-4">
+                                <CardBody>
+                                    {challengeQuestions.length > 0 && (
+                                        <Form
+                                            className="form-row row mb-5 mt-3 py-5"
+                                            onSubmit={handleSubmit}
+                                            isSubmitting
+                                        >
+                                            {challengeQuestions.map(
+                                                (eachQuestion, i) => (
+                                                    <>
+                                                        <Row key={i}>
+                                                            <div className="question quiz mb-0">
+                                                                <b
                                                                     style={{
                                                                         fontSize:
-                                                                            '1.4rem'
+                                                                            '1.6rem'
                                                                     }}
                                                                 >
+                                                                    {i + 1}.{' '}
                                                                     {
-                                                                        eachQuestion.description
+                                                                        eachQuestion.question
                                                                     }
-                                                                </p>
-                                                            )}
-                                                        </div>
-                                                        <div className="answers">
-                                                            <FormGroup
-                                                                tag="fieldset"
-                                                                className="w-100 challenges-fs"
-                                                                id="radioGroup1"
-                                                                label="One of these please"
-                                                            >
-                                                                <>
-                                                                    {eachQuestion.type ===
-                                                                        'TEXT' && (
-                                                                        <FormGroup
-                                                                            check
-                                                                            className=" answers"
-                                                                        >
-                                                                            <Label
-                                                                                check
-                                                                                style={{
-                                                                                    width: '100%'
-                                                                                }}
-                                                                            >
-                                                                                <TextArea
-                                                                                    name={`${eachQuestion.challenge_question_id}`}
-                                                                                    value={filterAnswer(
-                                                                                        eachQuestion.challenge_question_id
-                                                                                    )}
-                                                                                    onChange={(
-                                                                                        e
-                                                                                    ) =>
-                                                                                        handleChange(
-                                                                                            e
-                                                                                        )
-                                                                                    }
-                                                                                />
-                                                                            </Label>
-                                                                        </FormGroup>
-                                                                    )}
-                                                                    {eachQuestion.type ===
-                                                                        'DRAW' && (
-                                                                        <FormGroup
-                                                                            check
-                                                                            className="mx-5 answers"
-                                                                        >
-                                                                            <Label
-                                                                                check
-                                                                            >
-                                                                                <Input
-                                                                                    type="file"
-                                                                                    name={`${eachQuestion.challenge_question_id}`}
-                                                                                    // value={`${eachQuestion.challenge_question_id} -- ${""}`}
-                                                                                />
-                                                                            </Label>
-                                                                        </FormGroup>
-                                                                    )}
-                                                                    {eachQuestion.type ===
-                                                                        'MRQ' && (
-                                                                        <>
+                                                                </b>
+                                                            </div>
+                                                            <div>
+                                                                {eachQuestion?.description && (
+                                                                    <p
+                                                                        className="text-muted ms-5"
+                                                                        style={{
+                                                                            fontSize:
+                                                                                '1.4rem'
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            eachQuestion.description
+                                                                        }
+                                                                    </p>
+                                                                )}
+                                                            </div>
+                                                            <div className="answers">
+                                                                <FormGroup
+                                                                    tag="fieldset"
+                                                                    className="w-100 challenges-fs"
+                                                                    id="radioGroup1"
+                                                                    label="One of these please"
+                                                                >
+                                                                    <>
+                                                                        {eachQuestion.type ===
+                                                                            'TEXT' && (
                                                                             <FormGroup
                                                                                 check
-                                                                                className="mx-5"
+                                                                                className=" answers"
                                                                             >
                                                                                 <Label
                                                                                     check
                                                                                     style={{
-                                                                                        fontSize:
-                                                                                            '1.4rem'
+                                                                                        width: '100%'
                                                                                     }}
                                                                                 >
-                                                                                    <Input
-                                                                                        type="radio"
+                                                                                    <TextArea
                                                                                         name={`${eachQuestion.challenge_question_id}`}
-                                                                                        id="radioOption1"
+                                                                                        value={filterAnswer(
+                                                                                            eachQuestion.challenge_question_id
+                                                                                        )}
                                                                                         onChange={(
                                                                                             e
                                                                                         ) =>
@@ -281,302 +251,350 @@ const IdeasPageNew = () => {
                                                                                                 e
                                                                                             )
                                                                                         }
-                                                                                        value={`${eachQuestion.option_a}`}
                                                                                     />
-                                                                                    {
-                                                                                        eachQuestion.option_a
-                                                                                    }
                                                                                 </Label>
                                                                             </FormGroup>
+                                                                        )}
+                                                                        {eachQuestion.type ===
+                                                                            'DRAW' && (
                                                                             <FormGroup
                                                                                 check
-                                                                                className="mx-5"
+                                                                                className="mx-5 answers"
                                                                             >
                                                                                 <Label
                                                                                     check
-                                                                                    style={{
-                                                                                        fontSize:
-                                                                                            '1.4rem'
-                                                                                    }}
                                                                                 >
                                                                                     <Input
-                                                                                        type="radio"
+                                                                                        type="file"
                                                                                         name={`${eachQuestion.challenge_question_id}`}
-                                                                                        id="radioOption2"
-                                                                                        onChange={(
-                                                                                            e
-                                                                                        ) =>
-                                                                                            handleChange(
+                                                                                        // value={`${eachQuestion.challenge_question_id} -- ${""}`}
+                                                                                    />
+                                                                                </Label>
+                                                                            </FormGroup>
+                                                                        )}
+                                                                        {eachQuestion.type ===
+                                                                            'MRQ' && (
+                                                                            <>
+                                                                                <FormGroup
+                                                                                    check
+                                                                                    className="mx-5"
+                                                                                >
+                                                                                    <Label
+                                                                                        check
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                '1.4rem'
+                                                                                        }}
+                                                                                    >
+                                                                                        <Input
+                                                                                            type="radio"
+                                                                                            name={`${eachQuestion.challenge_question_id}`}
+                                                                                            id="radioOption1"
+                                                                                            onChange={(
                                                                                                 e
-                                                                                            )
-                                                                                        }
-                                                                                        value={`${eachQuestion.option_b}`}
-                                                                                    />{' '}
-                                                                                    {
-                                                                                        eachQuestion.option_b
-                                                                                    }
-                                                                                </Label>
-                                                                            </FormGroup>
-                                                                            <FormGroup
-                                                                                check
-                                                                                className="mx-5"
-                                                                            >
-                                                                                <Label
-                                                                                    check
-                                                                                    style={{
-                                                                                        fontSize:
-                                                                                            '1.4rem'
-                                                                                    }}
-                                                                                >
-                                                                                    <Input
-                                                                                        type="radio"
-                                                                                        onChange={(
-                                                                                            e
-                                                                                        ) =>
-                                                                                            handleChange(
-                                                                                                e
-                                                                                            )
-                                                                                        }
-                                                                                        name={`${eachQuestion.challenge_question_id}`}
-                                                                                        id="radioOption3"
-                                                                                        value={`${eachQuestion.option_c}`}
-                                                                                    />{' '}
-                                                                                    {
-                                                                                        eachQuestion.option_c
-                                                                                    }
-                                                                                </Label>
-                                                                            </FormGroup>
-
-                                                                            <FormGroup
-                                                                                check
-                                                                                className="mx-5"
-                                                                            >
-                                                                                <Label
-                                                                                    check
-                                                                                    style={{
-                                                                                        fontSize:
-                                                                                            '1.4rem'
-                                                                                    }}
-                                                                                >
-                                                                                    <Input
-                                                                                        type="radio"
-                                                                                        onChange={(
-                                                                                            e
-                                                                                        ) =>
-                                                                                            handleChange(
-                                                                                                e
-                                                                                            )
-                                                                                        }
-                                                                                        name={`${eachQuestion.challenge_question_id}`}
-                                                                                        id="radioOption4"
-                                                                                        value={`${eachQuestion.option_d}`}
-                                                                                    />{' '}
-                                                                                    {
-                                                                                        eachQuestion.option_d
-                                                                                    }
-                                                                                </Label>
-                                                                            </FormGroup>
-                                                                        </>
-                                                                    )}
-                                                                    {eachQuestion.type ===
-                                                                        'MCQ' && (
-                                                                        <>
-                                                                            <FormGroup
-                                                                                check
-                                                                                className="mx-5"
-                                                                            >
-                                                                                <Label
-                                                                                    check
-                                                                                    style={{
-                                                                                        fontSize:
-                                                                                            '1.4rem'
-                                                                                    }}
-                                                                                >
-                                                                                    <Input
-                                                                                        type="checkbox"
-                                                                                        name={`${eachQuestion.challenge_question_id}`}
-                                                                                        checked={
-                                                                                            filterAnswer(
-                                                                                                eachQuestion.challenge_question_id
-                                                                                            ) &&
-                                                                                            filterAnswer(
-                                                                                                eachQuestion.challenge_question_id
-                                                                                            ).includes(
-                                                                                                eachQuestion.option_a
-                                                                                            )
-                                                                                        }
-                                                                                        id={
+                                                                                            ) =>
+                                                                                                handleChange(
+                                                                                                    e
+                                                                                                )
+                                                                                            }
+                                                                                            value={`${eachQuestion.option_a}`}
+                                                                                        />
+                                                                                        {
                                                                                             eachQuestion.option_a
                                                                                         }
-                                                                                        onChange={(
-                                                                                            e
-                                                                                        ) =>
-                                                                                            handleChange(
-                                                                                                e
-                                                                                            )
-                                                                                        }
-                                                                                        value={`${eachQuestion.option_a}`}
-                                                                                    />
-                                                                                    {
-                                                                                        eachQuestion.option_a
-                                                                                    }
-                                                                                </Label>
-                                                                            </FormGroup>
-                                                                            <FormGroup
-                                                                                check
-                                                                                className="mx-5"
-                                                                            >
-                                                                                <Label
+                                                                                    </Label>
+                                                                                </FormGroup>
+                                                                                <FormGroup
                                                                                     check
-                                                                                    style={{
-                                                                                        fontSize:
-                                                                                            '1.4rem'
-                                                                                    }}
+                                                                                    className="mx-5"
                                                                                 >
-                                                                                    <Input
-                                                                                        type="checkbox"
-                                                                                        name={`${eachQuestion.challenge_question_id}`}
-                                                                                        checked={
-                                                                                            filterAnswer(
-                                                                                                eachQuestion.challenge_question_id
-                                                                                            ) &&
-                                                                                            filterAnswer(
-                                                                                                eachQuestion.challenge_question_id
-                                                                                            ).includes(
-                                                                                                eachQuestion.option_b
-                                                                                            )
-                                                                                        }
-                                                                                        id={
+                                                                                    <Label
+                                                                                        check
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                '1.4rem'
+                                                                                        }}
+                                                                                    >
+                                                                                        <Input
+                                                                                            type="radio"
+                                                                                            name={`${eachQuestion.challenge_question_id}`}
+                                                                                            id="radioOption2"
+                                                                                            onChange={(
+                                                                                                e
+                                                                                            ) =>
+                                                                                                handleChange(
+                                                                                                    e
+                                                                                                )
+                                                                                            }
+                                                                                            value={`${eachQuestion.option_b}`}
+                                                                                        />{' '}
+                                                                                        {
                                                                                             eachQuestion.option_b
                                                                                         }
-                                                                                        onChange={(
-                                                                                            e
-                                                                                        ) =>
-                                                                                            handleChange(
-                                                                                                e
-                                                                                            )
-                                                                                        }
-                                                                                        value={`${eachQuestion.option_b}`}
-                                                                                    />
-                                                                                    {
-                                                                                        eachQuestion.option_b
-                                                                                    }
-                                                                                </Label>
-                                                                            </FormGroup>
-                                                                            <FormGroup
-                                                                                check
-                                                                                className="mx-5"
-                                                                            >
-                                                                                <Label
+                                                                                    </Label>
+                                                                                </FormGroup>
+                                                                                <FormGroup
                                                                                     check
-                                                                                    style={{
-                                                                                        fontSize:
-                                                                                            '1.4rem'
-                                                                                    }}
+                                                                                    className="mx-5"
                                                                                 >
-                                                                                    <Input
-                                                                                        type="checkbox"
-                                                                                        name={`${eachQuestion.challenge_question_id}`}
-                                                                                        checked={
-                                                                                            filterAnswer(
-                                                                                                eachQuestion.challenge_question_id
-                                                                                            ) &&
-                                                                                            filterAnswer(
-                                                                                                eachQuestion.challenge_question_id
-                                                                                            ).includes(
-                                                                                                eachQuestion.option_c
-                                                                                            )
-                                                                                        }
-                                                                                        id={
+                                                                                    <Label
+                                                                                        check
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                '1.4rem'
+                                                                                        }}
+                                                                                    >
+                                                                                        <Input
+                                                                                            type="radio"
+                                                                                            onChange={(
+                                                                                                e
+                                                                                            ) =>
+                                                                                                handleChange(
+                                                                                                    e
+                                                                                                )
+                                                                                            }
+                                                                                            name={`${eachQuestion.challenge_question_id}`}
+                                                                                            id="radioOption3"
+                                                                                            value={`${eachQuestion.option_c}`}
+                                                                                        />{' '}
+                                                                                        {
                                                                                             eachQuestion.option_c
                                                                                         }
-                                                                                        onChange={(
-                                                                                            e
-                                                                                        ) =>
-                                                                                            handleChange(
-                                                                                                e
-                                                                                            )
-                                                                                        }
-                                                                                        value={`${eachQuestion.option_c}`}
-                                                                                    />
-                                                                                    {
-                                                                                        eachQuestion.option_c
-                                                                                    }
-                                                                                </Label>
-                                                                            </FormGroup>
+                                                                                    </Label>
+                                                                                </FormGroup>
 
-                                                                            <FormGroup
-                                                                                check
-                                                                                className="mx-5"
-                                                                            >
-                                                                                <Label
+                                                                                <FormGroup
                                                                                     check
-                                                                                    style={{
-                                                                                        fontSize:
-                                                                                            '1.4rem'
-                                                                                    }}
+                                                                                    className="mx-5"
                                                                                 >
-                                                                                    <Input
-                                                                                        type="checkbox"
-                                                                                        name={`${eachQuestion.challenge_question_id}`}
-                                                                                        checked={
-                                                                                            filterAnswer(
-                                                                                                eachQuestion.challenge_question_id
-                                                                                            ) &&
-                                                                                            filterAnswer(
-                                                                                                eachQuestion.challenge_question_id
-                                                                                            ).includes(
-                                                                                                eachQuestion.option_d
-                                                                                            )
-                                                                                        }
-                                                                                        id={
+                                                                                    <Label
+                                                                                        check
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                '1.4rem'
+                                                                                        }}
+                                                                                    >
+                                                                                        <Input
+                                                                                            type="radio"
+                                                                                            onChange={(
+                                                                                                e
+                                                                                            ) =>
+                                                                                                handleChange(
+                                                                                                    e
+                                                                                                )
+                                                                                            }
+                                                                                            name={`${eachQuestion.challenge_question_id}`}
+                                                                                            id="radioOption4"
+                                                                                            value={`${eachQuestion.option_d}`}
+                                                                                        />{' '}
+                                                                                        {
                                                                                             eachQuestion.option_d
                                                                                         }
-                                                                                        onChange={(
-                                                                                            e
-                                                                                        ) =>
-                                                                                            handleChange(
+                                                                                    </Label>
+                                                                                </FormGroup>
+                                                                            </>
+                                                                        )}
+                                                                        {eachQuestion.type ===
+                                                                            'MCQ' && (
+                                                                            <>
+                                                                                <FormGroup
+                                                                                    check
+                                                                                    className="mx-5"
+                                                                                >
+                                                                                    <Label
+                                                                                        check
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                '1.4rem'
+                                                                                        }}
+                                                                                    >
+                                                                                        <Input
+                                                                                            type="checkbox"
+                                                                                            name={`${eachQuestion.challenge_question_id}`}
+                                                                                            checked={
+                                                                                                filterAnswer(
+                                                                                                    eachQuestion.challenge_question_id
+                                                                                                ) &&
+                                                                                                filterAnswer(
+                                                                                                    eachQuestion.challenge_question_id
+                                                                                                ).includes(
+                                                                                                    eachQuestion.option_a
+                                                                                                )
+                                                                                            }
+                                                                                            id={
+                                                                                                eachQuestion.option_a
+                                                                                            }
+                                                                                            onChange={(
                                                                                                 e
-                                                                                            )
+                                                                                            ) =>
+                                                                                                handleChange(
+                                                                                                    e
+                                                                                                )
+                                                                                            }
+                                                                                            value={`${eachQuestion.option_a}`}
+                                                                                        />
+                                                                                        {
+                                                                                            eachQuestion.option_a
                                                                                         }
-                                                                                        value={`${eachQuestion.option_d}`}
-                                                                                    />
-                                                                                    {
-                                                                                        eachQuestion.option_d
-                                                                                    }
-                                                                                </Label>
-                                                                            </FormGroup>
-                                                                        </>
-                                                                    )}
+                                                                                    </Label>
+                                                                                </FormGroup>
+                                                                                <FormGroup
+                                                                                    check
+                                                                                    className="mx-5"
+                                                                                >
+                                                                                    <Label
+                                                                                        check
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                '1.4rem'
+                                                                                        }}
+                                                                                    >
+                                                                                        <Input
+                                                                                            type="checkbox"
+                                                                                            name={`${eachQuestion.challenge_question_id}`}
+                                                                                            checked={
+                                                                                                filterAnswer(
+                                                                                                    eachQuestion.challenge_question_id
+                                                                                                ) &&
+                                                                                                filterAnswer(
+                                                                                                    eachQuestion.challenge_question_id
+                                                                                                ).includes(
+                                                                                                    eachQuestion.option_b
+                                                                                                )
+                                                                                            }
+                                                                                            id={
+                                                                                                eachQuestion.option_b
+                                                                                            }
+                                                                                            onChange={(
+                                                                                                e
+                                                                                            ) =>
+                                                                                                handleChange(
+                                                                                                    e
+                                                                                                )
+                                                                                            }
+                                                                                            value={`${eachQuestion.option_b}`}
+                                                                                        />
+                                                                                        {
+                                                                                            eachQuestion.option_b
+                                                                                        }
+                                                                                    </Label>
+                                                                                </FormGroup>
+                                                                                <FormGroup
+                                                                                    check
+                                                                                    className="mx-5"
+                                                                                >
+                                                                                    <Label
+                                                                                        check
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                '1.4rem'
+                                                                                        }}
+                                                                                    >
+                                                                                        <Input
+                                                                                            type="checkbox"
+                                                                                            name={`${eachQuestion.challenge_question_id}`}
+                                                                                            checked={
+                                                                                                filterAnswer(
+                                                                                                    eachQuestion.challenge_question_id
+                                                                                                ) &&
+                                                                                                filterAnswer(
+                                                                                                    eachQuestion.challenge_question_id
+                                                                                                ).includes(
+                                                                                                    eachQuestion.option_c
+                                                                                                )
+                                                                                            }
+                                                                                            id={
+                                                                                                eachQuestion.option_c
+                                                                                            }
+                                                                                            onChange={(
+                                                                                                e
+                                                                                            ) =>
+                                                                                                handleChange(
+                                                                                                    e
+                                                                                                )
+                                                                                            }
+                                                                                            value={`${eachQuestion.option_c}`}
+                                                                                        />
+                                                                                        {
+                                                                                            eachQuestion.option_c
+                                                                                        }
+                                                                                    </Label>
+                                                                                </FormGroup>
 
-                                                                    <hr />
-                                                                </>
-                                                            </FormGroup>
-                                                        </div>
-                                                    </Row>
-                                                </>
-                                            )
-                                        )}
+                                                                                <FormGroup
+                                                                                    check
+                                                                                    className="mx-5"
+                                                                                >
+                                                                                    <Label
+                                                                                        check
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                '1.4rem'
+                                                                                        }}
+                                                                                    >
+                                                                                        <Input
+                                                                                            type="checkbox"
+                                                                                            name={`${eachQuestion.challenge_question_id}`}
+                                                                                            checked={
+                                                                                                filterAnswer(
+                                                                                                    eachQuestion.challenge_question_id
+                                                                                                ) &&
+                                                                                                filterAnswer(
+                                                                                                    eachQuestion.challenge_question_id
+                                                                                                ).includes(
+                                                                                                    eachQuestion.option_d
+                                                                                                )
+                                                                                            }
+                                                                                            id={
+                                                                                                eachQuestion.option_d
+                                                                                            }
+                                                                                            onChange={(
+                                                                                                e
+                                                                                            ) =>
+                                                                                                handleChange(
+                                                                                                    e
+                                                                                                )
+                                                                                            }
+                                                                                            value={`${eachQuestion.option_d}`}
+                                                                                        />
+                                                                                        {
+                                                                                            eachQuestion.option_d
+                                                                                        }
+                                                                                    </Label>
+                                                                                </FormGroup>
+                                                                            </>
+                                                                        )}
 
-                                        <div className="text-right">
-                                            <Button
-                                                type="submit"
-                                                btnClass="primary"
-                                                disabled={
-                                                    answerResponses &&
-                                                    answerResponses.length === 0
-                                                }
-                                                size="small"
-                                                label="Submit"
-                                            />
-                                        </div>
-                                    </Form>
-                                )}
-                            </CardBody>
-                        </Card>
-                    </Row>
-                </Col>
-            </Container>
+                                                                        <hr />
+                                                                    </>
+                                                                </FormGroup>
+                                                            </div>
+                                                        </Row>
+                                                    </>
+                                                )
+                                            )}
+
+                                            <div className="text-right">
+                                                <Button
+                                                    type="submit"
+                                                    btnClass="primary"
+                                                    disabled={
+                                                        answerResponses &&
+                                                        answerResponses.length ===
+                                                            0
+                                                    }
+                                                    size="small"
+                                                    label="Submit"
+                                                />
+                                            </div>
+                                        </Form>
+                                    )}
+                                </CardBody>
+                            </Card>
+                        </Row>
+                    </Col>
+                </Container>
+            )}
         </Layout>
     );
 };

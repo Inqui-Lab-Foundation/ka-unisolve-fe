@@ -1,9 +1,9 @@
 import './SignUp.scss';
-import React, { useState } from 'react';
-import { Row, Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import React, { useLayoutEffect, useState } from 'react';
+import { Row, Col, Form, FormGroup, Label, Input, List } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { InputBox } from '../../stories/InputBox/InputBox.jsx';
-//import { Button } from '../../stories/Button.jsx';
+import { Button } from '../../stories/Button.jsx';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -25,6 +25,12 @@ const LoginNew = (props) => {
     const { t } = useTranslation();
     const [password, handlePassword] = useState("password");
     const history = useHistory();
+    useLayoutEffect(() => {
+        const moduleName = localStorage.getItem("module");
+        if (localStorage.getItem("current_user") && localStorage.getItem("module")) {
+            moduleName === "MENTOR" ? history.push("/teacher/dashboard") : moduleName === "ADMIN" ? history.push("/admin/dashboard") : history.push("/dashboard");
+        }
+    }, []);
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -304,7 +310,7 @@ const LoginNew = (props) => {
                                     {/* {props.error} */}
 
                                     <div className="form-row row mb-5">
-
+                                        {/* <p>Student login will be launched shortly. Please wait for notice from the program coordinators.</p> */}
                                         {/* Login button */}
                                         <Col
 
@@ -327,7 +333,7 @@ const LoginNew = (props) => {
                                                 }
                                                 disabled={!(formik.dirty && formik.isValid)}
                                             />
-                                        </Col> */}
+                                        </Col>
                                         {/* <Space>
                       <Button
                         onClick={() =>
@@ -368,6 +374,19 @@ const LoginNew = (props) => {
                                 </Row> */}
 
                                 
+                            </Col>
+                            <Col>
+                                <List type="unstyled">
+                                    <li>
+                                        <a href="http://tiny.cc/StudentVideoOne" target="_blank" rel='noopener noreferrer'>Click here to watch video 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://tiny.cc/StudentVideoTwo" target="_blank" rel='noopener noreferrer'>Click here to watch video 2</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://tiny.cc/StudentVideoThree" target="_blank" rel='noopener noreferrer'>Click here to watch video 3</a>
+                                    </li>
+                                </List>
                             </Col>
                         </Row>
                     </Col>

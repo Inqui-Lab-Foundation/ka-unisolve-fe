@@ -42,6 +42,7 @@ import AddNewMember from './Student/Pages/TeamsMentors/AddNewMember';
 import EditMember from './Student/Pages/TeamsMentors/EditMember';
 // import IdeasPage from './Student/Pages/Ideas/IdeasPage';
 import IdeasPageNew from './Student/Pages/Ideas/IdeasPageCopy';
+import SDG from './Student/Pages/Ideas/SDG';
 import SubmittedIdeas from './Student/Pages/Ideas/SubmittedIdeas';
 import TicketViewDetails from './Student/Pages/HelpPages/TicketViewDetails';
 // ADMIN ROUTES
@@ -125,6 +126,8 @@ import ChangePSWModal from './Teachers/ChangePSWModal';
 import Translation from './Admin/Translation/Translation';
 import EditTranslation from './Admin/Translation/EditTranslation'; 
 import CreateTranslation from './Admin/Translation/CreateTranslation'; 
+//import IdeasubmissionunderCOn from './Student/Ideasubsaticundercon';
+import DummyStuMyCer from './Student/DummyStudentMyCertificate';
 
 const Routers = () => {
     // const history = useHistory();
@@ -198,6 +201,12 @@ const Routers = () => {
                         exact
                         path="/challenges"
                         component={IdeasPageNew}
+                        //component={IdeasubmissionunderCOn}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path="/challenge-initiation"
+                        component={SDG}
                     />
                     <ProtectedRoute path="/ideasPage" component={Ideas} />
                     <ProtectedRoute
@@ -581,7 +590,7 @@ const Routers = () => {
                     />
                     <ProtectedRoute
                         exact={true}
-                        path="/teacher/create-team-member"
+                        path="/teacher/create-team-member/:id/:count"
                         component={TeacherTeamMember}
                     />
                     <ProtectedRoute
@@ -648,6 +657,12 @@ const Routers = () => {
                         exact={true}
                         path="/teacher/my-certificate"
                         component={MyCertificate}
+                    />
+
+                    <ProtectedRoute
+                        exact={true}
+                        path="/student/my-certificate"
+                        component={DummyStuMyCer}
                     />
                     <ProtectedRoute exact={true} path="/admin/translation" component={Translation} />
                     <ProtectedRoute exact={true} path="/admin/edit-translation" component={EditTranslation} />

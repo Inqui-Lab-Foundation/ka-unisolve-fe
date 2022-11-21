@@ -20,7 +20,7 @@ import {
     NavItem
 } from 'reactstrap';
 import { Button } from '../stories/Button';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Input } from 'antd';
 import LanguageSelectorComp from '../components/LanguageSelectorComp';
 import { useTranslation } from 'react-i18next';
@@ -41,42 +41,55 @@ import map_icon_pitch from '../assets/media/home/icon_solution_pichting.png';
 import map_icon_incu from '../assets/media/home/icon_incubation.png';
 
 // ta brans
-import SSA_Tamilnadu from '../assets/media/tn-brands/1_SSA_Tamilnadu.jpg';
-import SIDP_tamilnadu from '../assets/media/tn-brands/2_SIDP_tamilnadu.jpg';
-import EDII_tamilnadu from '../assets/media/tn-brands/3_EDII_tamilnadu.jpg';
-import UpShift_Tamilnadu from '../assets/media/tn-brands/4_UpShift_Tamilnadu.png';
-import Yuwaah_Tamilnadu from '../assets/media/tn-brands/5_Yuwaah_Tamilnadu.jpg';
-import IIF_Tamilnadu from '../assets/media/tn-brands/7_IIF_Tamilnadu.png';
-import SS_Tamilnadu from '../assets/media/tn-brands/8_SS_Tamilnadu.jpg';
-import Unicef_OOI_Tamilnadu from '../assets/media/tn-brands/9_Unicef OOI_Tamilnadu.jpg';
-import LogoTn from '../assets/media/tn-brands/UPSHIFT_SIDP_TN_logo.png';
+import SSA_Tamilnadu from '../assets/media/tn-brands/1_govt_karnataka.png';
+import SIDP_tamilnadu from '../assets/media/tn-brands/2_SSA_karnataka.png';
+import EDII_tamilnadu from '../assets/media/tn-brands/3_nif_karnataka.png';
+import UpShift_Tamilnadu from '../assets/media/tn-brands/4_UpShift_karnataka.png';
+import Yuwaah_Tamilnadu from '../assets/media/tn-brands/5_Yuwaah_karnataka.png';
+import IIF_Tamilnadu from '../assets/media/tn-brands/6_IIF_karnataka.png';
+import SS_Tamilnadu from '../assets/media/tn-brands/7_SS_karnataka.png';
+import Unicef_OOI_Tamilnadu from '../assets/media/tn-brands/8_Unicef_karnataka.png';
+import LogoTn from '../assets/media/tn-brands/UPSHIFT_SIDP_KA_logo.png';
 
 import Blog1 from '../assets/media/home/blog/walker_elders.jpg';
 import Blog2 from '../assets/media/home/blog/agriculture_bag.jpeg';
 import Blog3 from '../assets/media/home/blog/sweeping_machine.png';
 import RegisterPopup from './registration/RegisterPopup';
-import TamilNaduMap from '../components/MapCard/TamilNaduMap';
+import KarnatakaMap from '../components/MapCard/KarnatakaMap';
 import { getDistrictData, getDistrictLiveData } from '../redux/home/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import FancyVideo from 'react-videojs-fancybox';
-import taVideo from '../assets/media/tn-brands/ta-video.mp4';
-import tnVideoCover from '../assets/media/tn-brands/videoCover.png';
 import SchoolRegisterPopup from './SchoolRegisterPopup';
 import axios from 'axios';
 import ScrollToTop from 'react-scroll-to-top';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import { getSchedulesForTeacherAndStudents } from '../redux/schedules/actions';
 import { compareDates } from '../helpers/Utils';
+import Vimeo from '@u-wave/react-vimeo';
+import i18next from 'i18next';
 
 const Home = () => {
     const { t } = useTranslation();
     const [open, setOpen] = useState('1');
     const dispatch = useDispatch();
+    const history = useHistory();
     const { schedules } = useSelector((state) => state.schedules);
     const [modalShow, setModalShow] = useState(false);
     // useLayoutEffect(() => {
     //     dispatch(getSchedulesForTeacherAndStudents());
     // }, []);
+    useLayoutEffect(() => {
+        const moduleName = localStorage.getItem('module');
+        if (
+            localStorage.getItem('current_user') &&
+            localStorage.getItem('module')
+        ) {
+            moduleName === 'MENTOR'
+                ? history.push('/teacher/dashboard')
+                : moduleName === 'ADMIN'
+                ? history.push('/admin/dashboard')
+                : history.push('/dashboard');
+        }
+    }, []);
     const [nav1, setNav1] = useState(null);
     const [nav2, setNav2] = useState(null);
     const [slider1, setSlider1] = useState(null);
@@ -299,6 +312,7 @@ const Home = () => {
             title: `${t('home_tl.faq_qn_5')}`,
             desc: `${t('home_tl.faq_ans_5')}`
         }
+        
     ];
 
     const blogs = [
@@ -338,7 +352,7 @@ const Home = () => {
                 </Link>
                 <Link className="menu-item" onClick={() => setSidebar(false)}>
                     <Button
-                        label="Register"
+                        label={t('home_tl.register')}
                         btnClass="primary px-0 register"
                         size="small"
                         onClick={() => setModalShow(true)}
@@ -452,7 +466,7 @@ const Home = () => {
                                             </AnchorLink>
                                         </NavItem>
                                     </Nav>
-                                    <LanguageSelectorComp module="general"/>
+                                    <LanguageSelectorComp module="general" />
                                 </div>
                             </Col>
                         </Row>
@@ -503,9 +517,14 @@ const Home = () => {
                                                 to="/teacher"
                                             >
                                                 <Button
-                                                    // label="Login"
                                                     label={t('home_tl.login')}
                                                     btnClass="primary "
+                                                    onClick={() => {
+                                                        history.push("/teacher");
+                                                        i18next.changeLanguage(
+                                                            'en'
+                                                        );
+                                                    }}
                                                     size="small"
                                                 />
                                             </Link>
@@ -554,13 +573,11 @@ const Home = () => {
                                 }}
                             ></div>
                         </Col>
-                        <Col md={6} className="my-auto ">
-                            <div className="position-relative">
-                                <FancyVideo
-                                    source={taVideo}
-                                    poster={tnVideoCover}
-                                    id={'sintel'}
-                                />
+                        <Col md={6} className="position-relative">
+                            <div className="position-absolute" style={{width:"100%",height:"100%"}}>
+                            <Vimeo 
+                                video={772457997}
+                            />  
                             </div>
                         </Col>
                     </Row>
@@ -598,9 +615,12 @@ const Home = () => {
                             lg={6}
                             className="my-auto mx-auto student-heading px-5 "
                         >
-                            <h2 className="mb-5 sub-heading">
-                                UPSHIFT {t('home_tl.power_by')}{' '}
-                                <span className="green">UNISOLVE</span>{' '}
+                            <h2 className="mb-5 sub-heading"
+                            dangerouslySetInnerHTML={{
+                                __html: t('home_tl.power_by')
+                            }}>
+                                {/* UPSHIFT {' '}
+                                <span className="green">UNISOLVE</span>{' '} */}
                             </h2>
                             <div
                                 dangerouslySetInnerHTML={{
@@ -633,7 +653,6 @@ const Home = () => {
                     </Row>
                 </Container>
             </section>
-
             {/* <section className="mentor-student">
         <Container className="both">
             <Row>
@@ -704,7 +723,6 @@ const Home = () => {
             </Row>
         </Container>
     </section> */}
-
             <section className="road-map" id="roadmap">
                 <div className="heading">
                     <h2 className="sub-heading w-100 text-center">
@@ -836,16 +854,14 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-
             <section className="state-map" id="impact">
                 <div className="heading">
                     <h2 className="sub-heading text-center">
                         {t('home_tl.engagement')}
                     </h2>
                 </div>
-                <TamilNaduMap />
+                <KarnatakaMap />
             </section>
-
             <section className="blog">
                 <Container>
                     <Row className="text-center justify-content-md-center">
@@ -917,7 +933,6 @@ const Home = () => {
                     </Row>
                 </Container>
             </section>
-
             <section className="testimonials ">
                 <Container>
                     <Row className="text-center justify-content-md-center">
@@ -963,7 +978,6 @@ const Home = () => {
                     </Row>
                 </Container>
             </section>
-
             <section className="uni-partners counter" id="partners">
                 <Container className="text-center">
                     <Row className="counter-card">
@@ -1014,7 +1028,7 @@ const Home = () => {
                     </Row>
                 </Container>
             </section>
-``
+            ``
             <section className="locate-unisolve">
                 <Container>
                     <Row>
@@ -1129,7 +1143,6 @@ const Home = () => {
                     </Row>
                 </Container>
             </section>
-
             <section className="faq " id="faq">
                 <Container>
                     <Row className="text-center justify-content-md-center">
@@ -1168,7 +1181,6 @@ const Home = () => {
                     </Row>
                 </Container>
             </section>
-
             <footer className="footer">
                 <Container>
                     <Row>
@@ -1249,7 +1261,6 @@ const Home = () => {
                     </Col>
                 </Row>
             </footer>
-
             {modalShow && (
                 <RegisterPopup
                     show={modalShow}

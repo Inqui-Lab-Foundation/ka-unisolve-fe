@@ -6,12 +6,14 @@ import { Button } from '../../stories/Button';
 import Layout from '../Layout';
 import { deleteTempMentorById } from '../store/admin/actions';
 import './dashboard.scss';
+import { useHistory } from 'react-router-dom';
 
 const Dashboard = () => {
     const inputField = {
         type: 'text',
         className: 'defaultInput'
     };
+    const history = useHistory();
     const [diesCode, setDiesCode] = useState('');
     const [orgData, setOrgData] = useState({});
     const [error, setError] = useState('');
@@ -22,6 +24,7 @@ const Dashboard = () => {
     };
 
     const handleSearch = (e) => {
+        
         const body = JSON.stringify({
             organization_code: diesCode
         });
@@ -48,7 +51,19 @@ const Dashboard = () => {
             });
         e.preventDefault();
     };
-    
+    const handleEdit = () =>{
+        history.push({
+            pathname: '/admin/edit-user-profile',
+            data: {
+                full_name : orgData.mentor?.full_name,
+                mobile : orgData.mentor?.mobile,
+                username : orgData.mentor?.user?.username,
+                mentor_id : orgData.mentor?.mentor_id,
+                where: 'Dashbord'
+            }
+        });
+    };
+    console.log(orgData,'test-----');
     return (
         <Layout>
             <div className="dashboard-wrapper pb-5 my-5 px-5">
@@ -108,6 +123,7 @@ const Dashboard = () => {
                                             <Descriptions.Item label="Faculty Mobile">{orgData.mentor?.mobile}</Descriptions.Item>
                                             <Descriptions.Item label="Faculty email">{orgData.mentor?.user?.username}</Descriptions.Item>
                                         </Descriptions>
+                                        <button onClick={()=>handleEdit()} className='btn btn-warning btn-lg'>Edit</button>
                                         <button onClick={()=>{
                                             deleteTempMentorById(orgData.mentor?.user_id);
                                             setOrgData({});
