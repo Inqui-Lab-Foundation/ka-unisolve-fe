@@ -171,11 +171,10 @@ const TeacherPlayVideo = (props) => {
             url: process.env.REACT_APP_API_BASE_URL + '/videos/' + videoId,
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser.data[0].token}`
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
             }
         };
         // let response = await axios(config);
-        // console.log("res", response);
         await axios(config)
             .then(function (response) {
                 if (response.status === 200) {
@@ -197,7 +196,7 @@ const TeacherPlayVideo = (props) => {
                 worksheetId,
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser.data[0].token}`
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
             }
         };
         axios(config)
@@ -220,9 +219,8 @@ const TeacherPlayVideo = (props) => {
     };
 
     async function modulesListUpdateApi(courseTopicId) {
-        // console.log(courseTopicId);
         const body1 = JSON.stringify({
-            user_id: JSON.stringify(currentUser.data[0].user_id),
+            user_id: JSON.stringify(currentUser?.data[0]?.user_id),
             mentor_course_topic_id: JSON.stringify(courseTopicId),
             status: 'Completed'
         });
@@ -231,7 +229,7 @@ const TeacherPlayVideo = (props) => {
             url: process.env.REACT_APP_API_BASE_URL + '/mentorTopicProgress',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser.data[0].token}`
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
             },
             data: body1
         };
@@ -429,7 +427,7 @@ const TeacherPlayVideo = (props) => {
                 '/response',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser.data[0].token}`
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
             },
             data: data
         };
@@ -477,7 +475,7 @@ const TeacherPlayVideo = (props) => {
         // toggle(continueObj[0].course_module_id);
     };
 
-    const handlenextend = () =>{
+    const handlenextend = () => {
         handleVimeoOnEnd();
         setInstructions(true);
         setHandbook(false);
@@ -812,7 +810,9 @@ const TeacherPlayVideo = (props) => {
                                                         worksheetResponce.map(
                                                             (item, i) => (
                                                                 <Button
-                                                                style={{margin:"5px"}}
+                                                                    style={{
+                                                                        margin: '5px'
+                                                                    }}
                                                                     key={i}
                                                                     label={`Download ${item
                                                                         .split(
@@ -841,15 +841,17 @@ const TeacherPlayVideo = (props) => {
                                                                 />
                                                             )
                                                         )}
-                                                </div>   
+                                                </div>
                                             </div>
-                                            <Col className='text-right'>
-                                            <Button 
-                                            label={"Continue"}
-                                            onClick={()=> handlenextend()}
-                                            btnClass="primary mt-4 mb-2"
-                                            size="small"
-                                            />
+                                            <Col className="text-right">
+                                                <Button
+                                                    label={'Continue'}
+                                                    onClick={() =>
+                                                        handlenextend()
+                                                    }
+                                                    btnClass="primary mt-4 mb-2"
+                                                    size="small"
+                                                />
                                             </Col>
                                         </CardBody>
                                     </Card>
@@ -1050,7 +1052,9 @@ const TeacherPlayVideo = (props) => {
                                                             (item, i) =>
                                                                 i > 1 && (
                                                                     <Button
-                                                                    style={{margin:"5px"}}
+                                                                        style={{
+                                                                            margin: '5px'
+                                                                        }}
                                                                         key={i}
                                                                         label={`Download ${item
                                                                             .split(
@@ -1108,8 +1112,10 @@ const TeacherPlayVideo = (props) => {
                                                         worksheetResponce.map(
                                                             (item, i) =>
                                                                 i <= 1 && (
-                                                                    <Button 
-                                                                    style={{margin:"5px"}}
+                                                                    <Button
+                                                                        style={{
+                                                                            margin: '5px'
+                                                                        }}
                                                                         key={i}
                                                                         label={`Download ${item
                                                                             .split(

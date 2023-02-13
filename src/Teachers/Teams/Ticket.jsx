@@ -58,7 +58,7 @@ const TicketsPage = (props) => {
     useEffect(() => {
         setLoading(true);
         props
-            .getAdminTeamsListAction(currentUser.data[0].mentor_id)
+            .getAdminTeamsListAction(currentUser?.data[0]?.mentor_id)
             .then(() => setLoading(false));
     }, [count]);
 
@@ -190,7 +190,6 @@ const TicketsPage = (props) => {
     //         },
     //         buttonsStyling: false
     //     });
-
     //     swalWithBootstrapButtons
     //         .fire({
     //             title: 'You are attempting to delete Team.',
