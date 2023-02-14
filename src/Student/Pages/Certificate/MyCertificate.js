@@ -77,7 +77,7 @@ const Certificate = ({
                             className="text-capitalize"
                             style={{
                                 position: 'absolute',
-                                top: `${type ? '8rem' : '7.4rem'}`,
+                                top: `${type ? '7.3rem' : '7.2rem'}`,
                                 left: `${type ? '9rem' : '9rem'}`,
                                 fontSize: '0.75rem',
                                 fontFamily:"courier",
@@ -92,7 +92,7 @@ const Certificate = ({
                             className="text-capitalize"
                             style={{
                                 position: 'absolute',
-                                top: `${type ? '9.4rem' : '8.8rem'}`,
+                                top: `${type ? '8.9rem' : '8.8rem'}`,
                                 left: `${type ? '5rem' : '5rem'}`,
                                 fontSize: '0.75rem',
                                 fontFamily:"courier",
