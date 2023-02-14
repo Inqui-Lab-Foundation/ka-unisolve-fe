@@ -4,8 +4,8 @@ import { Button } from '../../../stories/Button';
 import Layout from '../../Layout';
 import jsPDF from 'jspdf';
 import { getCurrentUser } from '../../../helpers/Utils';
-import courseCompletionCertificate from '../../../assets/media/img/certificates/TN-SIDP-Certificates-signed-2-1.png';
-import ideaSubmissionCertificate from '../../../assets/media/img/certificates/TN-SIDP-Certificates-signed-3-1.png';
+import courseCompletionCertificate from '../../../assets/media/img/certificates/Student_KA.png';
+import ideaSubmissionCertificate from '../../../assets/media/img/certificates/Student_KA_idea_submission.png';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -15,8 +15,6 @@ import {
     updateStudentBadges,
     updateStudentCertificate
 } from '../../../redux/studentRegistration/actions';
-//import CommonPage from '../../../components/CommonPage';
-//import moment from 'moment';
 import Congo from '../../../assets/media/survey-success.jpg';
 
 const Certificate = ({
@@ -32,10 +30,7 @@ const Certificate = ({
     const handleCertificateDownload = () => {
         const content = type ? partRef.current : pdfRef.current;
         const badge = 'the_finisher';
-        const size = type ? [298, 211] : [298, 211];
-        // const size = type ? [210, 297] : [298, 200];
-        const orientation = type ? 'l' : 'l';
-        const doc = new jsPDF(orientation, 'px', size);
+        const doc = new jsPDF('l', 'px', [298, 211]);
         const certName = `${currentUser?.data[0]?.full_name}_${
             type ? 'idea_certificate' : 'course_certificate'
         }`;
@@ -58,12 +53,7 @@ const Certificate = ({
                 updateStudentCertificate(currentUser?.data[0]?.student_id)
             );
     };
-    // const certDateCheck = () => {
-    //     const check = type !=='participate'
-    //         ? certDate?.course_completed_date &&
-    //         moment(certDate?.course_completed_date).format('DD-MM-YYYY'):'';
-    //     return check ? ' on ' + check : '';
-    // };
+
     return (
         <Card
             className="course-sec-basic p-5 m-4 w-100"
@@ -89,8 +79,6 @@ const Certificate = ({
                                 position: 'absolute',
                                 top: `${type ? '8rem' : '7.4rem'}`,
                                 left: `${type ? '9rem' : '9rem'}`,
-                                // top: `${type ? '9rem' : '12.8rem'}`,
-                                // left: `${type ? '10.3rem' : '6.5rem'}`,
                                 fontSize: '0.75rem',
                                 fontFamily:"courier",
                                 fontWeight:'bold',
@@ -124,9 +112,6 @@ const Certificate = ({
                             style={{
                                 width:'297px',
                                 height:'210px',
-                                // width: `${type ? '297px' : '200px'}`,
-                                // height: `${type ? '209px' : '297px'}`,
-                                // border: '1px solid #cccccc'
                             }}
                         />
                     </div>
@@ -156,7 +141,6 @@ const Certificate = ({
 const MyCertificate = () => {
     const showDummypage = false;
     const { t } = useTranslation();
-    // const teamMember = useSelector((state) => state?.studentRegistration.teamMember);
     const language = useSelector(
         (state) => state?.studentRegistration?.studentLanguage
     );
@@ -207,15 +191,13 @@ const MyCertificate = () => {
         <Layout>
             <Container className="presuervey mb-50 mt-5 ">
                 <Fragment>
-                    {showDummypage ? (
-                        // all_topics_count === topics_completed_count || enablePostSurvey
+                    {!showDummypage ? (
                         <Row>
                             <Col className="d-lg-flex justify-content-center">
                                 <Certificate
                                     type={'participate'}
                                     currentUser={currentUser}
                                     postSurveyStatus={enablePostSurvey}
-                                    //certDate={ideaSubmissionsSubmittedAt}
                                     ideaDate={ideaSubmissionsSubmittedAt}
                                     language={language}
                                 />
@@ -231,7 +213,6 @@ const MyCertificate = () => {
                             </Col>
                         </Row>
                     ) : (
-                        //<CommonPage text={t('dummytext.certificate_msg')+t('dummytext.student_my_cer')} />
                         <Card className="course-sec-basic p-5">
                             <div className="text-left">
                                 <div>
@@ -245,7 +226,6 @@ const MyCertificate = () => {
                                         __html:
                                             t('dummytext.name') +
                                             currentUser?.data[0].full_name
-                                        // t('dummytext.school') + teamMember.team?.mentor?.organization?.organization_name
                                     }}
                                 ></h6>
                                 <p
