@@ -326,6 +326,7 @@
         "certificate": "Certificate",
         "certificate_desc": "Please Download Certificate...",
         "part_certificate_desc": "ದಯವಿಟ್ಟು ಭಾಗವಹಿಸುವ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ...",
+        "complete_post_survey_default":"Thank you for completing the journey and supporting your students in successful completion of the course and idea submission. Your certificate will be enabled soon.",
         "complete_postsurvey": "Please complete post survey to get course completion certificate"
     },
     "teacher_header": {
@@ -401,7 +402,10 @@
         "btn_logout": "ಲಾಗ್ ಔಟ್",
         "btn_cancel": "ರದ್ದುಮಾಡು",
         "cancelled":"ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ",
-        "logged_in":"ನೀವು ಲಾಗ್ ಇನ್ ಆಗಿರುವಿರಿ"
+        "logged_in":"ನೀವು ಲಾಗ್ ಇನ್ ಆಗಿರುವಿರಿ",
+        "btn_ok":"ಸರಿ",
+        "submit_idea":"ನೀವು ಹಿಂತಿರುಗಿಸಲಾಗದ ನಿಮ್ಮ ಕಲ್ಪನೆಯನ್ನು ಸಲ್ಲಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವಿರಿ",
+        "idea_sub_cancelled":"ಐಡಿಯಾ ಸಲ್ಲಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
     },
     "teacehr_red": {
         "heading": "REGISTER",
@@ -465,7 +469,10 @@
         "idea_status1":" ಪ್ರಾರಂಭಿಸಲಾಗಿದೆ ",
         "idea_status2":" ಸಲ್ಲಿಸಲಾಗಿದೆ ",
         "idea_submission_msg2":"ನಿಮ್ಮ ತಂಡದ ",
-        "idea_submission_msg3":" ರಂದು "
+        "idea_submission_msg3":" ರಂದು ",
+        "idea_submission_date_com_desc":"ಆತ್ಮೀಯ ವಿದ್ಯಾರ್ಥಿಗಳೇ, ಐಡಿಯಾ ಸಲ್ಲಿಕೆಗೆ ಅಂತಿಮ ದಿನಾಂಕ ಪೂರ್ಣಗೊಂಡಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಕೋರ್ಸ್ ಅನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ ಮತ್ತು ಸಮೀಕ್ಷೆಯನ್ನು ಪೋಸ್ಟ್ ಮಾಡಿ.",
+        "go_to_course_button":"ಕೋರ್ಸ್‌ಗೆ ಹೋಗಿ",
+        "go_to_post_survey_button":"ಪೋಸ್ಟ್ ಸಮೀಕ್ಷೆಗೆ ಹೋಗಿ"
     },
     "translation":{
         "tamil":"kannada Content :-",

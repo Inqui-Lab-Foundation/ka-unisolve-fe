@@ -87,6 +87,10 @@ const Home = () => {
                 ? history.push('/teacher/dashboard')
                 : moduleName === 'ADMIN'
                 ? history.push('/admin/dashboard')
+                : moduleName === 'EVALUATOR'
+                ? history.push('/evaluator/submitted-ideas')
+                : moduleName === 'EADMIN'
+                ? history.push('/eadmin/dashboard')
                 : history.push('/dashboard');
         }
     }, []);
@@ -335,7 +339,6 @@ const Home = () => {
             desc: `${t('home_tl.idea_desc_3')}`
         }
     ];
-    // console.log("----379",sidebar);
 
     return (
         <div className="home-main">
@@ -400,7 +403,7 @@ const Home = () => {
                             {t('home_nav_links.faq')}
                         </AnchorLink>
                     </NavItem>
-                     <NavItem className="mt-3 ms-3">
+                    <NavItem className="mt-3 ms-3">
                         <LanguageSelectorComp module="general" />
                     </NavItem>
                 </Nav>
@@ -527,7 +530,9 @@ const Home = () => {
                                                     label={t('home_tl.login')}
                                                     btnClass="primary "
                                                     onClick={() => {
-                                                        history.push("/teacher");
+                                                        history.push(
+                                                            '/teacher'
+                                                        );
                                                         i18next.changeLanguage(
                                                             'en'
                                                         );
@@ -665,19 +670,18 @@ const Home = () => {
                                         size="small"
                                     />
                                 </Link> */}
-                            </Col>
-                            <Col md={12} lg={6}>
-                                <figure className="my-0">
-                                    <img
-                                        src={LearnMentor}
-                                        alt="learn"
-                                        className="img-fluid"
-                                    />
-                                </figure>
-                            </Col>
+                        </Col>
+                        <Col md={12} lg={6}>
+                            <figure className="my-0">
+                                <img
+                                    src={LearnMentor}
+                                    alt="learn"
+                                    className="img-fluid"
+                                />
+                            </figure>
+                        </Col>
                     </Row>
                 </Container>
-                
             </section>
             {/* <section className="mentor-student">
         <Container className="both">
